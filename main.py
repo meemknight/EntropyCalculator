@@ -4,6 +4,7 @@ import docx # python_docx module
 import PyPDF2 # PyPDF2 module
 import os
 import pprint
+import math
 
 def readDOCX(path):
     d = docx.Document(path)
@@ -46,12 +47,37 @@ def calculateEntropyLetters(data):
 
     d = dict()
 
-    for i in data:
-        d.setdefault(i,0)  
-        d[i] += 1
+    total = 0
 
+    for i in data:
+        if i.isalpha():
+            d.setdefault(i.lower(),0)  
+            d[i.lower()] += 1
+
+    delVals = []
+    for (k, val) in d.items():
+        if(val < 5):
+            #remove letters that are not from the romanian alfabet
+            delVals.append(k)
+        else:
+            total += val
+
+    for i in delVals:
+        del d[i]
+
+    print(total)
     pprint.pprint(d)
 
-    return None
+    #calculate entropy
 
-calculateEntropyLetters(getText('Document1.docx'))
+    entropy = 0.0
+
+    for (k, val) in d.items():
+        probab = val / total
+        entropy += probab * math.log2(1/probab)
+
+    return entropy
+
+e = calculateEntropyLetters(getText('Ioan Slavici.docx'))
+
+print('\n', e)
