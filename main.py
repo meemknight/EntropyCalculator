@@ -5,6 +5,9 @@ import PyPDF2 # PyPDF2 module
 import os
 import pprint
 import math
+import re
+
+debug = True
 
 def readDOCX(path):
     d = docx.Document(path)
@@ -43,7 +46,7 @@ def getText(path):
         return readPDF(path)
 
 #todo (Vlod): count letters and apply the formula
-def calculateEntropyLetters(data):
+def calculateEntropyLetters(data, n=1):
 
 # remove non romanian letters and space
 # remove double space "  "
@@ -54,27 +57,39 @@ def calculateEntropyLetters(data):
 
     total = 0
 
-    for i in data:
-        if i.isalpha():
-            d.setdefault(i.lower(),0)  
-            d[i.lower()] += 1
+    # Construim aici sirul de caractere ce ulterior va reprezenta cheia dictionarului
+    # Practic folosim aceasta lista ca sa grupam caracterele textului cate n (parametrul functiei)
+    charList = []
 
-    delVals = []
+    i = 0
+
+    while i < len(data):
+        char = data[i]
+
+
+        isValidCharacter = bool(re.search("[a-zţşăîâ ]", char, re.IGNORECASE))
+        if isValidCharacter:
+            charList.append(char)
+
+        
+        if len(charList) == n:
+            s = "".join(charList)
+            d.setdefault(s.lower(),0)  
+            d[s.lower()] += 1
+            charList = []
+            i -= (n-1)
+        
+        i += 1
+
+    total = 0
     for (k, val) in d.items():
-        if(val < 5):
-            #remove letters that are not from the romanian alfabet
-            delVals.append(k)
-        else:
-            total += val
+        total += val
 
-    for i in delVals:
-        del d[i]
-
-    print(total)
-    pprint.pprint(d)
+    if debug:
+        print("Total:", total)
+        pprint.pprint(d)
 
     #calculate entropy
-
     entropy = 0.0
 
     for (k, val) in d.items():
@@ -83,6 +98,12 @@ def calculateEntropyLetters(data):
 
     return entropy
 
-e = calculateEntropyLetters(getText('Ioan Slavici.docx'))
+# f1 = calculateEntropyLetters(getText('Ioan Slavici.docx'))
 
-print('\n', e)
+# print('f1:', f1)
+
+e = calculateEntropyLetters("Ana are", 2)
+
+# e = calculateEntropyLetters(getText('Ioan Slavici.docx'), 2)
+
+print('Entropie:', e)
