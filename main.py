@@ -45,6 +45,11 @@ def getText(path):
 #todo (Vlod): count letters and apply the formula
 def calculateEntropyLetters(data):
 
+# remove non romanian letters and space
+# remove double space "  "
+# ana are mere -> "an na a.  .a re e."  -> grup de 2 exemplu
+# make 2 modes: one with spaces one without
+
     d = dict()
 
     total = 0
