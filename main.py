@@ -1,7 +1,6 @@
 #!python3 
 
 import docx # python_docx module
-import PyPDF2 # PyPDF2 module
 import os
 import pprint
 import math
@@ -17,21 +16,6 @@ def readDOCX(path):
     text = '\n'.join(l)
     return text
 
-def readPDF(path):
-    f = open(path, 'rb')
-
-    l = []
-    pdf = PyPDF2.PdfFileReader(f)
-    print(path, pdf.numPages)
-
-    for i in range(pdf.numPages):
-        l.append(pdf.getPage(i).extractText())
-
-    f.close()
-
-    return '\n'.join(l)
-
-
 
 def getText(path):
     if(not os.path.isfile(path)):
@@ -39,8 +23,7 @@ def getText(path):
 
     if path.lower().endswith('.docx'):
         return readDOCX(path)
-    if path.lower().endswith('.pdf'):
-        return readPDF(path)
+    return ''
 
 #todo (Vlod): count letters and apply the formula
 def calculateEntropyLetters(data):
