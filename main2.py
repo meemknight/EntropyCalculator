@@ -64,7 +64,7 @@ def calculateEntropy(data):
     # after that apply the formula
 
     dictionar = dict()
-
+    dictionar2 = dict()
     total = 0
 
     separatori = "—,./?!-_)(*&^%$#@\"\'"
@@ -75,28 +75,39 @@ def calculateEntropy(data):
     data = data.lower()
     data = data.split()
 
+    # calculate the length of all words
+    lungimeTotala = 0
+    for cuvant in data:
+        lungimeTotala += len(cuvant)
+    
+    
+    # calculate word appearance
     for cuvant in data:
         if cuvant in dictionar:
             dictionar[cuvant] += 1
         else:
             dictionar[cuvant] = 1
 
-
+    # calculate averageLength
     total = 0
     for (k, val) in dictionar.items():
         total += val
 
-    if debug:
-        print("Total:", total)
-        pprint.pprint(dictionar)
+    averageLength = lungimeTotala / total
+    # if debug:
+    #     print("Total:", total)
+    #     pprint.pprint(dictionar)
 
+    print('AverageLength:', averageLength)
     #calculate entropy
     entropy = 0.0
-
+    
     for (k, val) in dictionar.items():
-        probab = (val / total) / 2
+        probab = (val / total) / averageLength
         entropy += probab * math.log2(1 / probab)
     return entropy
+
+    
 
 e = calculateEntropy(getText('Ioan Slavici.docx')) # 92844
 
