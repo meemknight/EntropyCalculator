@@ -11,7 +11,10 @@ Recreating Shannon's experiment on Romanian language to find it's entropy
 
 ### How it works?
 
-The program loads the text from the *.docx* file, counts the letters using a dictionary (ignore cases included) and applies the entropy formula.
+The program loads the text from the *.docx* file. After that, it parses the text through a string (we are taking it as a parameter in the calculateEntropyLetters function), counts the letters, splits them into groups of n (n = 1 by default) and applies the formula. 
+
+The results of Ruby's word-entropy version are the same as the Python one.
+
 
 ### Results
 
