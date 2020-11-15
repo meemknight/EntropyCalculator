@@ -13,10 +13,12 @@ Recreating Shannon's experiment on Romanian language to find it's entropy
 
 The program loads the text from the *.docx* file. After that, it parses the text through a string (we are taking it as a parameter in the calculateEntropyLetters function), counts the letters, splits them into groups of n (n = 1 by default) and applies the formula. 
 
-The results of Ruby's word-entropy version are the same as the Python one.
+The results of Ruby's word-entropy version are similary as the Python version but not the same because of the difference between Ruby's and Python's text processing.
 
 
 ### Results
+
+For letters:
 
 ```
 4.138825064085823 -> groups of 1
@@ -29,6 +31,11 @@ The results of Ruby's word-entropy version are the same as the Python one.
 2.273232653402789 -> groups of 8
 2.0701024646971957 -> groups of 9
 1.8995542006029116 -> groups of 10
+```
+
+For words:
+```
+2.7111395185656177
 ```
 
 ### Language used
