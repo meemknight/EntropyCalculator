@@ -93,7 +93,7 @@ def calculateEntropyLetters(data, n=1):
     entropy = 0.0
 
     for (k, val) in d.items():
-        probab = val / total
+        probab = (val / total) / n
         entropy += probab * math.log2(1/probab)
 
     return entropy
