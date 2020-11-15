@@ -8,7 +8,7 @@ def readDOCX path
 end
 
 def remove_non_alpha text
-  text.scan(/([a-zţşăîâșț]+)/).join " "
+  text.scan(/([a-zţşăîâșț]+)/)
 end
 
 def compute_entropy word_list
@@ -28,10 +28,8 @@ def compute_entropy word_list
 
   entropy = 0.0
 
-  wordLength = hash.keys[0].length
-
   hash.each do |key, value|
-    probab = (1.0 * value / total) / wordLength
+    probab = (1.0 * value / total)
     entropy += probab * Math.log(1/probab, 2)
   end
   
@@ -43,4 +41,16 @@ def split_string_every_n_characters string, n
   string.scan(/.{#{n}}/)
 end
 
-p compute_entropy split_string_every_n_characters(remove_non_alpha(readDOCX "Ioan Slavici.docx"), 3)
+def average_words_length words
+  totalLetters = 0
+  totalWords = 0
+  words.each do |word|
+    totalLetters += word.join().length
+    totalWords += 1
+  end
+  1.0 * totalLetters / totalWords
+end
+
+text = remove_non_alpha readDOCX "Ioan Slavici.docx"
+
+p compute_entropy(text) / average_words_length(text)
